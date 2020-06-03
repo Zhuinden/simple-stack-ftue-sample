@@ -29,7 +29,7 @@ class CreateLoginCredentialsFragment : KeyedFragment(R.layout.create_login_crede
             textUsername.setText(viewModel.username.get())
             textPassword.setText(viewModel.password.get())
 
-            viewModel.isRegisterAndLoginEnabled.distinctUntilChanged().subscribeBy { enabled ->
+            viewModel.isRegisterAndLoginEnabled.subscribeBy { enabled ->
                 buttonRegisterAndLogin.isEnabled = enabled
             }.addTo(compositeDisposable)
 

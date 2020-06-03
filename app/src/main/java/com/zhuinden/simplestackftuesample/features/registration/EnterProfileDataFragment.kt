@@ -29,7 +29,7 @@ class EnterProfileDataFragment : KeyedFragment(R.layout.enter_profile_data_fragm
             textFullName.setText(viewModel.fullName.get())
             textBio.setText(viewModel.bio.get())
 
-            viewModel.isEnterProfileNextEnabled.distinctUntilChanged().subscribeBy { enabled ->
+            viewModel.isEnterProfileNextEnabled.subscribeBy { enabled ->
                 buttonEnterProfileNext.isEnabled = enabled
             }.addTo(compositeDisposable)
 

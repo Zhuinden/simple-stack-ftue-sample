@@ -34,8 +34,9 @@ class RegistrationViewModel(
     val password = BehaviorRelay.createDefault("")
 
     private val isRegisterAndLoginEnabledRelay = BehaviorRelay.createDefault(false)
-    private val isEnterProfileNextEnabledRelay = BehaviorRelay.createDefault(false)
     val isRegisterAndLoginEnabled: Observable<Boolean> = isRegisterAndLoginEnabledRelay
+
+    private val isEnterProfileNextEnabledRelay = BehaviorRelay.createDefault(false)
     val isEnterProfileNextEnabled: Observable<Boolean> = isEnterProfileNextEnabledRelay
 
     override fun onServiceRegistered() {

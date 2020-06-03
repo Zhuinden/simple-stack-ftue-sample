@@ -29,7 +29,7 @@ class LoginFragment : KeyedFragment(R.layout.login_fragment) {
             textUsername.setText(viewModel.username.get())
             textPassword.setText(viewModel.password.get())
 
-            viewModel.isLoginEnabled.distinctUntilChanged().subscribeBy { enabled ->
+            viewModel.isLoginEnabled.subscribeBy { enabled ->
                 buttonLogin.isEnabled = enabled
             }.addTo(compositeDisposable)
 

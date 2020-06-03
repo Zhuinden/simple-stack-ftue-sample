@@ -9,6 +9,7 @@ import com.zhuinden.simplestackftuesample.features.registration.EnterProfileData
 import com.zhuinden.simplestackftuesample.utils.get
 import com.zhuinden.simplestackftuesample.utils.set
 import com.zhuinden.statebundle.StateBundle
+import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
@@ -22,12 +23,13 @@ class LoginViewModel(
     val username = BehaviorRelay.createDefault("")
     val password = BehaviorRelay.createDefault("")
 
-    val isLoginEnabled = BehaviorRelay.createDefault(false)
+    private val isLoginEnabledRelay = BehaviorRelay.createDefault(false)
+    val isLoginEnabled: Observable<Boolean> = isLoginEnabledRelay
 
     override fun onServiceRegistered() {
         combineTuple(username, password)
             .subscribeBy { (username, password) ->
-                isLoginEnabled.set(username.isNotBlank() && password.isNotBlank())
+                isLoginEnabledRelay.set(username.isNotBlank() && password.isNotBlank())
             }.addTo(compositeDisposable)
     }
 
@@ -36,7 +38,7 @@ class LoginViewModel(
     }
 
     fun onLoginClicked() {
-        if (isLoginEnabled.get()) {
+        if (isLoginEnabledRelay.get()) {
             authenticationManager.saveRegistration()
             backstack.setHistory(History.of(ProfileKey()), StateChange.FORWARD)
         }
