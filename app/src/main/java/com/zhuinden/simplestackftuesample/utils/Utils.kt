@@ -41,7 +41,7 @@ fun View.hide() {
     this.visibility = View.GONE
 }
 
-fun <T : View> T.showIf(condition: (T) -> Boolean): T {
+inline fun <T : View> T.showIf(condition: (T) -> Boolean): T {
     if (condition(this)) {
         show()
     } else {
@@ -51,7 +51,7 @@ fun <T : View> T.showIf(condition: (T) -> Boolean): T {
     return this
 }
 
-fun <T : View> T.hideIf(condition: (T) -> Boolean): T {
+inline fun <T : View> T.hideIf(condition: (T) -> Boolean): T {
     if (condition(this)) {
         hide()
     } else {
