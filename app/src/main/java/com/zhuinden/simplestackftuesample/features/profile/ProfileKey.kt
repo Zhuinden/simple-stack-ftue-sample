@@ -9,14 +9,17 @@ import com.zhuinden.simplestackextensions.servicesktx.lookup
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class ProfileKey : DefaultFragmentKey(), DefaultServiceProvider.HasServices {
+data class ProfileKey(val username: String) : DefaultFragmentKey(),
+    DefaultServiceProvider.HasServices {
     override fun bindServices(serviceBinder: ServiceBinder) {
         with(serviceBinder) {
             add(ProfileViewModel(lookup(), backstack))
         }
     }
 
-    override fun getScopeTag(): String = javaClass.name
+    override fun getFragmentTag(): String = toString()
+
+    override fun getScopeTag(): String = toString()
 
     override fun instantiateFragment(): Fragment = ProfileFragment()
 }

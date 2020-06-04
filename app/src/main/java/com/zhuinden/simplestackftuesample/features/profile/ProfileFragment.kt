@@ -10,6 +10,8 @@ class ProfileFragment : KeyedFragment(R.layout.profile_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Toast.makeText(requireContext(), "Welcome!", Toast.LENGTH_LONG).show()
+        val key = getKey<ProfileKey>()
+
+        Toast.makeText(requireContext(), "Welcome ${key.username}!", Toast.LENGTH_LONG).show()
     }
 }

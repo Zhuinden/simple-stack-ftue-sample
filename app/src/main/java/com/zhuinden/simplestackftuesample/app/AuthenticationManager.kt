@@ -6,15 +6,23 @@ class AuthenticationManager(
     private val sharedPreferences: SharedPreferences
 ) {
     fun isAuthenticated(): Boolean {
-        return sharedPreferences.getBoolean("isRegistered", false)
+        return sharedPreferences.getString("username", "")!!.isNotEmpty()
     }
 
-    fun saveRegistration() {
-        sharedPreferences.edit().putBoolean("isRegistered", true).apply()
+    fun saveRegistration(username: String) {
+        sharedPreferences.edit().putString("username", username).apply()
     }
 
     fun clearRegistration() {
-        sharedPreferences.edit().remove("isRegistered").apply()
+        sharedPreferences.edit().remove("username").apply()
+    }
+
+    fun getAuthenticatedUser(): String {
+        return checkNotNull(
+            sharedPreferences.getString(
+                "username",
+                ""
+            ).takeIf { it!!.isNotEmpty() })
     }
 
     var authToken: String = "" // why would this be in the viewModel?

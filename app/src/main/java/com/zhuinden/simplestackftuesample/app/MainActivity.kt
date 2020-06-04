@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity(), SimpleStateChanger.NavigationHandler {
             .install(
                 this, binding.rootContainer, History.of(
                     when {
-                        authenticationManager.isAuthenticated() -> ProfileKey()
+                        authenticationManager.isAuthenticated() -> ProfileKey(authenticationManager.getAuthenticatedUser())
                         else -> LoginKey()
                     }
                 )

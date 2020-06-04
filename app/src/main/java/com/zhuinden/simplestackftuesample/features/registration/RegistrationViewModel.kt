@@ -58,8 +58,9 @@ class RegistrationViewModel(
     fun onRegisterAndLoginClicked() {
         if (isRegisterAndLoginEnabledRelay.get()) {
             currentState = RegistrationState.REGISTRATION_COMPLETED
-            authenticationManager.saveRegistration()
-            backstack.setHistory(History.of(ProfileKey()), StateChange.FORWARD)
+            val username = username.get()
+            authenticationManager.saveRegistration(username)
+            backstack.setHistory(History.of(ProfileKey(username)), StateChange.FORWARD)
         }
     }
 
