@@ -1,7 +1,7 @@
 package com.zhuinden.simplestackftuesample.features.login
 
 import com.jakewharton.rxrelay2.BehaviorRelay
-import com.zhuinden.rxcombinetuplekt.combineTuple
+import com.zhuinden.rxvalidatebykt.validateBy
 import com.zhuinden.simplestack.*
 import com.zhuinden.simplestackftuesample.app.AuthenticationManager
 import com.zhuinden.simplestackftuesample.features.profile.ProfileKey
@@ -27,9 +27,9 @@ class LoginViewModel(
     val isLoginEnabled: Observable<Boolean> = isLoginEnabledRelay
 
     override fun onServiceRegistered() {
-        combineTuple(username, password)
-            .subscribeBy { (username, password) ->
-                isLoginEnabledRelay.set(username.isNotBlank() && password.isNotBlank())
+        validateBy(username.map { it.isNotBlank() }, password.map { it.isNotBlank() })
+            .subscribeBy { isEnabled ->
+                isLoginEnabledRelay.set(isEnabled)
             }.addTo(compositeDisposable)
     }
 

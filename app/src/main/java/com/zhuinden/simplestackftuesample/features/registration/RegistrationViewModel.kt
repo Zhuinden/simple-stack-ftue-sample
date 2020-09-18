@@ -1,7 +1,7 @@
 package com.zhuinden.simplestackftuesample.features.registration
 
 import com.jakewharton.rxrelay2.BehaviorRelay
-import com.zhuinden.rxcombinetuplekt.combineTuple
+import com.zhuinden.rxvalidatebykt.validateBy
 import com.zhuinden.simplestack.*
 import com.zhuinden.simplestackftuesample.app.AuthenticationManager
 import com.zhuinden.simplestackftuesample.features.profile.ProfileKey
@@ -40,14 +40,14 @@ class RegistrationViewModel(
     val isEnterProfileNextEnabled: Observable<Boolean> = isEnterProfileNextEnabledRelay
 
     override fun onServiceRegistered() {
-        combineTuple(fullName, bio)
-            .subscribeBy { (fullName, bio) ->
-                isEnterProfileNextEnabledRelay.set(fullName.isNotBlank() && bio.isNotBlank())
+        validateBy(fullName.map { it.isNotBlank() }, bio.map { it.isNotBlank() })
+            .subscribeBy { isEnabled ->
+                isEnterProfileNextEnabledRelay.set(isEnabled)
             }.addTo(compositeDisposable)
 
-        combineTuple(username, password)
-            .subscribeBy { (username, password) ->
-                isRegisterAndLoginEnabledRelay.set(username.isNotBlank() && password.isNotBlank())
+        validateBy(username.map { it.isNotBlank() }, password.map { it.isNotBlank() })
+            .subscribeBy { isEnabled ->
+                isRegisterAndLoginEnabledRelay.set(isEnabled)
             }.addTo(compositeDisposable)
     }
 
