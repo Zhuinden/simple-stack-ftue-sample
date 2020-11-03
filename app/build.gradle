@@ -42,7 +42,7 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:1.1.0"
 
     implementation 'com.github.Zhuinden:simple-stack:2.4.0'
-    implementation "com.github.Zhuinden:simple-stack-extensions:2.0.0"
+    implementation "com.github.Zhuinden:simple-stack-extensions:2.0.1"
 
     implementation 'com.github.Zhuinden:rx-combinetuple-kt:1.1.0'
     implementation 'com.github.Zhuinden:rx-validateby-kt:1.0.1'
