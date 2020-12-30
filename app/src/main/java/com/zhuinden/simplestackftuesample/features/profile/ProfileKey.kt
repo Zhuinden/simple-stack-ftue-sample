@@ -6,14 +6,17 @@ import com.zhuinden.simplestackextensions.fragments.DefaultFragmentKey
 import com.zhuinden.simplestackextensions.services.DefaultServiceProvider
 import com.zhuinden.simplestackextensions.servicesktx.add
 import com.zhuinden.simplestackextensions.servicesktx.lookup
-import kotlinx.android.parcel.Parcelize
+import com.zhuinden.simplestackftuesample.app.AuthenticationManager
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class ProfileKey(val username: String) : DefaultFragmentKey(),
-    DefaultServiceProvider.HasServices {
+data class ProfileKey(
+    val username: String
+) : DefaultFragmentKey(), DefaultServiceProvider.HasServices {
+    @Suppress("RemoveExplicitTypeArguments")
     override fun bindServices(serviceBinder: ServiceBinder) {
         with(serviceBinder) {
-            add(ProfileViewModel(lookup(), backstack))
+            add(ProfileViewModel(lookup<AuthenticationManager>(), backstack))
         }
     }
 

@@ -1,29 +1,32 @@
 package com.zhuinden.simplestackftuesample.app
 
 import android.content.SharedPreferences
+import androidx.core.content.edit
 
 class AuthenticationManager(
     private val sharedPreferences: SharedPreferences
 ) {
-    fun isAuthenticated(): Boolean {
-        return sharedPreferences.getString("username", "")!!.isNotEmpty()
-    }
+    fun isAuthenticated(): Boolean =
+        sharedPreferences.getString(KEY_USERNAME, "")!!.isNotEmpty()
 
     fun saveRegistration(username: String) {
-        sharedPreferences.edit().putString("username", username).apply()
+        sharedPreferences.edit {
+            putString(KEY_USERNAME, username)
+        }
     }
 
     fun clearRegistration() {
-        sharedPreferences.edit().remove("username").apply()
+        sharedPreferences.edit {
+            remove(KEY_USERNAME)
+        }
     }
 
-    fun getAuthenticatedUser(): String {
-        return checkNotNull(
-            sharedPreferences.getString(
-                "username",
-                ""
-            ).takeIf { it!!.isNotEmpty() })
-    }
+    fun getAuthenticatedUser(): String =
+        checkNotNull(
+            sharedPreferences.getString(KEY_USERNAME, "").takeIf { it!!.isNotEmpty() }
+        )
 
-    var authToken: String = "" // why would this be in the viewModel?
+    companion object {
+        private const val KEY_USERNAME = "username"
+    }
 }
