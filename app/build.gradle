@@ -41,7 +41,6 @@ android {
         exclude 'META-INF/NOTICE.txt'
         exclude 'META-INF/notice.txt'
         exclude 'META-INF/ASL2.0'
-        exclude("META-INF/*.kotlin_module") // who brought *this* in?
     }
 }
 
@@ -57,8 +56,8 @@ dependencies {
     implementation 'com.github.Zhuinden:simple-stack:2.5.0'
     implementation "com.github.Zhuinden:simple-stack-extensions:2.1.0"
 
-    implementation 'com.github.Zhuinden:rx-combinetuple-kt:1.2.0'
-    implementation 'com.github.Zhuinden:rx-validateby-kt:2.1.0'
+    implementation 'com.github.Zhuinden:rx-combinetuple-kt:1.2.1'
+    implementation 'com.github.Zhuinden:rx-validateby-kt:2.1.1'
 
     implementation 'io.reactivex.rxjava2:rxkotlin:2.4.0'
     implementation 'com.jakewharton.rxrelay2:rxrelay:2.1.1'
