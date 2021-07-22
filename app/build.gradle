@@ -33,7 +33,7 @@ android {
     }
 
     packagingOptions {
-        META-INF/core-ktx_release.kotlin_module
+        pickFirst 'META-INF/core-ktx_release.kotlin_module'
         exclude 'META-INF/DEPENDENCIES'
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/LICENSE.txt'

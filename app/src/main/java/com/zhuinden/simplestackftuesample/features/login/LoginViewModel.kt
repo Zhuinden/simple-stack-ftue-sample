@@ -6,12 +6,13 @@ import com.zhuinden.simplestack.*
 import com.zhuinden.simplestackftuesample.app.AuthenticationManager
 import com.zhuinden.simplestackftuesample.features.profile.ProfileKey
 import com.zhuinden.simplestackftuesample.features.registration.EnterProfileDataKey
-import com.zhuinden.simplestackftuesample.utils.bindToRelay
 import com.zhuinden.simplestackftuesample.utils.get
 import com.zhuinden.simplestackftuesample.utils.set
 import com.zhuinden.statebundle.StateBundle
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.addTo
+import io.reactivex.rxkotlin.subscribeBy
 
 class LoginViewModel(
     private val authenticationManager: AuthenticationManager,
@@ -29,7 +30,9 @@ class LoginViewModel(
         validateBy(
             username.map { it.isNotBlank() },
             password.map { it.isNotBlank() }
-        ).bindToRelay(compositeDisposable, isLoginEnabledRelay)
+        ).subscribeBy { isEnabled ->
+            isLoginEnabledRelay.set(isEnabled)
+        }.addTo(compositeDisposable)
     }
 
     override fun onServiceUnregistered() {

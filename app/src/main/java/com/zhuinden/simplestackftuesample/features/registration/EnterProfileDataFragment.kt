@@ -6,8 +6,13 @@ import com.zhuinden.simplestackextensions.fragments.KeyedFragment
 import com.zhuinden.simplestackextensions.fragmentsktx.lookup
 import com.zhuinden.simplestackftuesample.R
 import com.zhuinden.simplestackftuesample.databinding.EnterProfileDataFragmentBinding
-import com.zhuinden.simplestackftuesample.utils.*
+import com.zhuinden.simplestackftuesample.utils.get
+import com.zhuinden.simplestackftuesample.utils.onClick
+import com.zhuinden.simplestackftuesample.utils.onTextChanged
+import com.zhuinden.simplestackftuesample.utils.set
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.addTo
+import io.reactivex.rxkotlin.subscribeBy
 
 
 class EnterProfileDataFragment : KeyedFragment(R.layout.enter_profile_data_fragment) {
@@ -24,9 +29,9 @@ class EnterProfileDataFragment : KeyedFragment(R.layout.enter_profile_data_fragm
             textFullName.setText(viewModel.fullName.get())
             textBio.setText(viewModel.bio.get())
 
-            viewModel.isEnterProfileNextEnabled.observe(compositeDisposable) { enabled ->
+            viewModel.isEnterProfileNextEnabled.subscribeBy { enabled ->
                 buttonEnterProfileNext.isEnabled = enabled
-            }
+            }.addTo(compositeDisposable)
 
             textFullName.onTextChanged { fullName -> viewModel.fullName.set(fullName) }
             textBio.onTextChanged { bio -> viewModel.bio.set(bio) }
