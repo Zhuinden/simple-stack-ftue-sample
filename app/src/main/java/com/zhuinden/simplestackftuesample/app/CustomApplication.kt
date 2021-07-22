@@ -13,8 +13,9 @@ class CustomApplication : Application() {
         super.onCreate()
 
         @Suppress("DEPRECATION")
-        val authenticationManager =
-            AuthenticationManager(PreferenceManager.getDefaultSharedPreferences(this))
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
+
+        val authenticationManager = AuthenticationManager(sharedPreferences)
 
         globalServices = GlobalServices.builder()
             .add(authenticationManager)

@@ -6,13 +6,8 @@ import com.zhuinden.simplestackextensions.fragments.KeyedFragment
 import com.zhuinden.simplestackextensions.fragmentsktx.lookup
 import com.zhuinden.simplestackftuesample.R
 import com.zhuinden.simplestackftuesample.databinding.CreateLoginCredentialsFragmentBinding
-import com.zhuinden.simplestackftuesample.utils.get
-import com.zhuinden.simplestackftuesample.utils.onClick
-import com.zhuinden.simplestackftuesample.utils.onTextChanged
-import com.zhuinden.simplestackftuesample.utils.set
+import com.zhuinden.simplestackftuesample.utils.*
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.addTo
-import io.reactivex.rxkotlin.subscribeBy
 
 
 class CreateLoginCredentialsFragment : KeyedFragment(R.layout.create_login_credentials_fragment) {
@@ -29,9 +24,9 @@ class CreateLoginCredentialsFragment : KeyedFragment(R.layout.create_login_crede
             textUsername.setText(viewModel.username.get())
             textPassword.setText(viewModel.password.get())
 
-            viewModel.isRegisterAndLoginEnabled.subscribeBy { enabled ->
+            viewModel.isRegisterAndLoginEnabled.observe(compositeDisposable) { enabled ->
                 buttonRegisterAndLogin.isEnabled = enabled
-            }.addTo(compositeDisposable)
+            }
 
             textUsername.onTextChanged { username -> viewModel.username.set(username) }
             textPassword.onTextChanged { password -> viewModel.password.set(password) }
