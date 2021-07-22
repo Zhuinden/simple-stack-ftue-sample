@@ -2,13 +2,12 @@ package com.zhuinden.simplestackftuesample.app
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.zhuinden.simplestack.GlobalServices
 import com.zhuinden.simplestack.History
 import com.zhuinden.simplestack.SimpleStateChanger
 import com.zhuinden.simplestack.StateChange
 import com.zhuinden.simplestack.navigator.Navigator
 import com.zhuinden.simplestackextensions.fragments.DefaultFragmentStateChanger
-import com.zhuinden.simplestackextensions.servicesktx.add
+import com.zhuinden.simplestackextensions.servicesktx.get
 import com.zhuinden.simplestackftuesample.R
 import com.zhuinden.simplestackftuesample.databinding.MainActivityBinding
 import com.zhuinden.simplestackftuesample.features.login.LoginKey
@@ -29,16 +28,14 @@ class MainActivity : AppCompatActivity(), SimpleStateChanger.NavigationHandler {
             DefaultFragmentStateChanger(supportFragmentManager, R.id.rootContainer)
 
         val app = application as CustomApplication
-        authenticationManager = app.authenticationManager
+        val globalServices = app.globalServices
+
+        authenticationManager = globalServices.get()
 
         Navigator.configure()
             .setStateChanger(SimpleStateChanger(this))
             .setScopedServices(ServiceProvider())
-            .setGlobalServices(
-                GlobalServices.builder()
-                    .add(authenticationManager)
-                    .build()
-            )
+            .setGlobalServices(globalServices)
             .install(
                 this, binding.rootContainer, History.of(
                     when {

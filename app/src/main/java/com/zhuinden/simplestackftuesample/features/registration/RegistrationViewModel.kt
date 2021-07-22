@@ -16,15 +16,7 @@ import io.reactivex.rxkotlin.subscribeBy
 class RegistrationViewModel(
     private val authenticationManager: AuthenticationManager,
     private val backstack: Backstack
-) : Bundleable, ScopedServices.Registered, ScopedServices.HandlesBack {
-    enum class RegistrationState { // this is actually kinda superfluous/unnecessary but ok
-        COLLECT_PROFILE_DATA,
-        COLLECT_USER_PASSWORD,
-        REGISTRATION_COMPLETED
-    }
-
-    private var currentState: RegistrationState = RegistrationState.COLLECT_PROFILE_DATA
-
+) : Bundleable, ScopedServices.Registered {
     private val compositeDisposable = CompositeDisposable()
 
     val fullName = BehaviorRelay.createDefault("")
@@ -57,7 +49,6 @@ class RegistrationViewModel(
 
     fun onRegisterAndLoginClicked() {
         if (isRegisterAndLoginEnabledRelay.get()) {
-            currentState = RegistrationState.REGISTRATION_COMPLETED
             val username = username.get()
             authenticationManager.saveRegistration(username)
             backstack.setHistory(History.of(ProfileKey(username)), StateChange.FORWARD)
@@ -66,21 +57,11 @@ class RegistrationViewModel(
 
     fun onEnterProfileNextClicked() {
         if (isEnterProfileNextEnabledRelay.get()) {
-            currentState = RegistrationState.COLLECT_USER_PASSWORD
             backstack.goTo(CreateLoginCredentialsKey())
         }
     }
 
-    override fun onBackEvent(): Boolean {
-        if (currentState == RegistrationState.COLLECT_USER_PASSWORD) {
-            currentState = RegistrationState.COLLECT_PROFILE_DATA
-            return false // already dispatching, so just go back a screen
-        }
-        return false
-    }
-
     override fun toBundle(): StateBundle = StateBundle().apply {
-        putSerializable("currentState", currentState)
         putString("username", username.get())
         putString("password", password.get())
         putString("fullName", fullName.get())
@@ -89,7 +70,6 @@ class RegistrationViewModel(
 
     override fun fromBundle(bundle: StateBundle?) {
         bundle?.run {
-            currentState = getSerializable("currentState") as RegistrationState
             username.set(getString("username", ""))
             password.set(getString("password", ""))
             fullName.set(getString("fullName", ""))

@@ -24,6 +24,4 @@ class AuthenticationManager(
                 ""
             ).takeIf { it!!.isNotEmpty() })
     }
-
-    var authToken: String = "" // why would this be in the viewModel?
 }
